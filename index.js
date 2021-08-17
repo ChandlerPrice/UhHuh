@@ -1,6 +1,7 @@
 const express = require('express');
 const pug = require('pug');
 const routes = require('./routes/routes');
+const expressSession = require('express-session');
 const path = require('path');
 
 const app = express();
@@ -8,6 +9,12 @@ const app = express();
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(expressSession({
+    secret: 'secret',
+    saveUninitialized: true,
+    resave: true
+}));
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
