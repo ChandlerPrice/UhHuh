@@ -15,3 +15,17 @@ let mdb = mongoose.connection;
 mdb.on('error', console.error.bind(console, 'connection error'));
 mdb.once('open', callback => {});
 
+let loginSchema = mongoose.Schema
+(
+    {
+        Name: String,
+        Password: String,
+        Age: int,
+        Email: String,
+        AnswerOne: String,
+        AnswerTwo: String,
+        AnswerThree: String
+    }
+);
+
+let Login = mongoose.model('Login_Collection', loginSchema);
