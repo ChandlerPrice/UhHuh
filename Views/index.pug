@@ -10,6 +10,8 @@ block content
             th Answer one 
             th Answer two 
             th Answer three
+            th 
+            tn
         tr 
             td #{user.Name}
             td #{user.Password}
@@ -18,5 +20,9 @@ block content
             td #{user.AnswerOne}
             td #{user.AnswerTwo}
             td #{user.AnswerThree}
+            td 
+                a(href='/edit/' + user.id) Edit 
+            td 
+                a(href='/delete/' + user.id) Edit 
     p 
         a(href='/create') Add new joke
