@@ -20,6 +20,7 @@ let urlEncodedParser = express.urlencoded({
 });
 
 app.get('/login', routes.login);
+app.post('/login', urlEncodedParser, routes.login)
 app.get('/', routes.api);
 app.get('/create', routes.create)
 app.post('/create', urlEncodedParser, routes.createAccount);
