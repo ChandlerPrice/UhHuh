@@ -34,7 +34,8 @@ exports.index = (req, res) =>
 {
     res.render('index',
     {
-        title: 'Home'
+        title: 'Home', 
+        config
     });
 };
 
@@ -42,7 +43,8 @@ exports.create = (req, res) =>
 {
     res.render('create', 
     {
-        title:'Create Account'
+        title:'Create Account',
+        config
     });
 };
 
@@ -58,13 +60,42 @@ exports.createJoke = (req, res) =>
             AnswerTwo: req.body.AnswerTwo,
             AnswerThree: req.body.AnswerThree
         }
-    )
+    );
+    login.save((err, login) =>
+    {
+        if(err) return console.error(err);
+        console.log(req.body.name + ' added');
+    });
+    res.redirect('/');
 };
 
 exports.edit = (req, res) =>
 {
-
+    Login.findById(req.params.id, (err, login) =>
+    {
+        if(err) return console.error(err);
+        res.render('edit',
+        {
+            title: 'Edit Account Information',
+            login,
+            config
+        });
+    });
 };
+
+exports.editAccount = (req, res) =>
+{
+    Login.findById(req.params.id, (err, login) =>
+    {
+        if(err) return console.error(err);
+        login.Name = req.body.Name,
+        login.Password = req.body.Password,
+        login.Email = req.body.Email,
+        login.AnswerOne = req.body.AnswerOne,
+        login.AnswerTwo = req.body.AnswerTwo,
+        login.AnswerThree = req.body.AnswerThree
+    });
+}
 
 exports.login = (req, res) =>
 {
