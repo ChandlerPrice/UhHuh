@@ -26,12 +26,50 @@ let urlEncodedParser = express.urlencoded({
     extended: false
 });
 
+const checkAuth = (req, res, next) => {
+    if(req.session.user && req.session.user.isAuthenticated){
+        next();
+    } else {
+        res.redirect('/');
+    }
+};
+
+app.post('/', urlEncodedParser, (req, res) => {
+    console.log(req.body.username);
+    if(req.body.username == 'user' && req.body.password == 'pass')
+    {
+        req.session.user = {
+            isAuthenticated: true,
+            username: req.body.username
+        }
+        res.redirect('/private')
+    }
+    else
+    {
+        res.redirect('/')
+    }
+});
+
+app.get('/edit', checkAuth, (req, res) => {
+    res.send(`Authorized access: Welcome! ${req.session.user.username}`);
+});
+
+app.get('/logout', (req, res) => {
+    req.session.destroy(err => {
+        if(err) {
+            console.log(err);
+        } else {
+            res.redirect('/')
+        }
+    });
+});
+
 app.get('/login', routes.login);
 app.post('/login', urlEncodedParser, routes.login)
-app.get('/', routes.api);
+app.get('/', routes.index);
 app.get('/create', routes.create)
 app.post('/create', urlEncodedParser, routes.createAccount);
-app.get('/edit', routes.edit)
+//app.get('/edit', routes.edit)
 app.post('/edit', urlEncodedParser, routes.editAccount);
 app.post('/delete', urlEncodedParser, routes.deleteAccount);
 

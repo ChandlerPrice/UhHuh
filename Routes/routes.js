@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const config = require('../config');
 
 mongoose.Promise = global.Promise;
 
@@ -34,7 +35,35 @@ exports.index = (req, res) =>
 {
     res.render('index',
     {
-        title: 'Home'
+        title: 'Home',
+        config,
+        Users: user
     });
 };
 
+exports.login = (req, res) =>
+{
+    res.render('login', {
+        title: 'Login',
+        config
+    });
+};
+
+exports.create = (req, res) =>
+{
+    res.render('create', {
+        title: 'Create'
+    });
+};
+
+exports.createAccount = (req, res) => {
+
+};
+
+exports.editAccount = (req, res) => {
+
+};
+
+exports.deleteAccount = (req, res) => {
+
+};
