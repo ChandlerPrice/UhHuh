@@ -38,3 +38,36 @@ exports.index = (req, res) =>
     });
 };
 
+exports.create = (req, res) =>
+{
+    res.render('create', 
+    {
+        title:'Create Account'
+    });
+};
+
+exports.createJoke = (req, res) =>
+{
+    let login = new Login(
+        {
+            Name: req.body.Name,
+            Password: req.body.Password,
+            Age: req.body.Age,
+            Email: req.body.Email,
+            AnswerOne: req.body.AnswerOne,
+            AnswerTwo: req.body.AnswerTwo,
+            AnswerThree: req.body.AnswerThree
+        }
+    )
+};
+
+exports.edit = (req, res) =>
+{
+
+};
+
+exports.login = (req, res) =>
+{
+
+};
+
