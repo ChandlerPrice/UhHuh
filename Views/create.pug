@@ -1,1 +1,28 @@
-extends layout
+extends layout 
+
+block content 
+    form(id='form' method='post' action='/create')
+        p Username
+            input(type='text' name='username')
+        p Password 
+            input(type='password' name='password')
+        p Email 
+            input(type='text' name='email')
+        p Age 
+            input(type='age' name='age')
+        p Question One
+            select(type='text' name='answerOne')
+                option(value='One') 
+                option(value='Two') 
+                option(value='Three') 
+        p Question Two
+            select(type='text' name='answerOne')
+                option(value='One') 
+                option(value='Two') 
+                option(value='Three') 
+        p Question Three
+            select(type='text' name='answerOne')
+                option(value='One') 
+                option(value='Two') 
+                option(value='Three') 
+        input(type='submit' value='Add Joke')
