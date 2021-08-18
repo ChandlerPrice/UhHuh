@@ -20,7 +20,7 @@ let loginSchema = mongoose.Schema
     {
         Name: String,
         Password: String,
-        Age: int,
+        Age: Number,
         Email: String,
         AnswerOne: String,
         AnswerTwo: String,
