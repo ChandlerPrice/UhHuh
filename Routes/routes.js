@@ -34,7 +34,8 @@ exports.index = (req, res) =>
 {
     res.render('index',
     {
-        title: 'Home'
+        title: 'Home', 
+        config
     });
 };
 
@@ -42,7 +43,8 @@ exports.create = (req, res) =>
 {
     res.render('create', 
     {
-        title:'Create Account'
+        title:'Create Account',
+        config
     });
 };
 
@@ -97,6 +99,6 @@ exports.editAccount = (req, res) =>
 
 exports.login = (req, res) =>
 {
-    
+
 };
 
