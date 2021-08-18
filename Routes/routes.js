@@ -35,16 +35,16 @@ exports.index = (req, res) =>
 {
     res.render('index',
     {
-        title: 'Home',
-        config,
-        Users: user
+        title: 'Home', 
+        config
     });
 };
 
-exports.login = (req, res) =>
+exports.create = (req, res) =>
 {
-    res.render('login', {
-        title: 'Login',
+    res.render('create', 
+    {
+        title:'Create Account',
         config
     });
 };
@@ -67,3 +67,57 @@ exports.editAccount = (req, res) => {
 exports.deleteAccount = (req, res) => {
 
 };
+exports.createJoke = (req, res) =>
+{
+    let login = new Login(
+        {
+            Name: req.body.Name,
+            Password: req.body.Password,
+            Age: req.body.Age,
+            Email: req.body.Email,
+            AnswerOne: req.body.AnswerOne,
+            AnswerTwo: req.body.AnswerTwo,
+            AnswerThree: req.body.AnswerThree
+        }
+    );
+    login.save((err, login) =>
+    {
+        if(err) return console.error(err);
+        console.log(req.body.name + ' added');
+    });
+    res.redirect('/');
+};
+
+exports.edit = (req, res) =>
+{
+    Login.findById(req.params.id, (err, login) =>
+    {
+        if(err) return console.error(err);
+        res.render('edit',
+        {
+            title: 'Edit Account Information',
+            login,
+            config
+        });
+    });
+};
+
+exports.editAccount = (req, res) =>
+{
+    Login.findById(req.params.id, (err, login) =>
+    {
+        if(err) return console.error(err);
+        login.Name = req.body.Name,
+        login.Password = req.body.Password,
+        login.Email = req.body.Email,
+        login.AnswerOne = req.body.AnswerOne,
+        login.AnswerTwo = req.body.AnswerTwo,
+        login.AnswerThree = req.body.AnswerThree
+    });
+}
+
+exports.login = (req, res) =>
+{
+
+};
+

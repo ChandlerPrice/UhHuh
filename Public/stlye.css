@@ -1,0 +1,12 @@
+html{
+    height: 100vw;
+    width: 100vw;
+    background-color: #7bc5c5;
+}
+
+body{
+    margin: 5vw;
+    padding: 1vw;
+    background-color: #1f1e33;
+    color: aliceblue;
+}

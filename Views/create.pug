@@ -1,1 +1,29 @@
-extends layout
+extends layout 
+
+block content 
+    form(id='form' method='post' action='/create')
+        p Username
+            input(type='text' name='username')
+        p Password 
+            input(type='password' name='password')
+        p Email 
+            input(type='text' name='email')
+        p Age 
+            input(type='age' name='age')
+        p Do you like blue?
+            select(type='text' name='answerOne')
+                option(value='Yes') 
+                option(value='I cannot see blue')
+                option(value=`It's pretty cool`)
+                option(value=`I'm wrong`)
+        p Question Two
+            select(type='text' name='answerOne')
+                option(value='One') 
+                option(value='Two') 
+                option(value='Three') 
+        p Question Three
+            select(type='text' name='answerOne')
+                option(value='One') 
+                option(value='Two') 
+                option(value='Three') 
+        input(type='submit' value='Add user')
