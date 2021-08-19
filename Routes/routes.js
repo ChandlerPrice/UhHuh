@@ -49,25 +49,7 @@ exports.create = (req, res) =>
     });
 };
 
-exports.create = (req, res) =>
-{
-    res.render('create', {
-        title: 'Create'
-    });
-};
-
-exports.createAccount = (req, res) => {
-
-};
-
-exports.editAccount = (req, res) => {
-
-};
-
-exports.deleteAccount = (req, res) => {
-
-};
-exports.createJoke = (req, res) =>
+exports.createLogin = (req, res) =>
 {
     let login = new Login(
         {
@@ -79,45 +61,50 @@ exports.createJoke = (req, res) =>
             AnswerTwo: req.body.AnswerTwo,
             AnswerThree: req.body.AnswerThree
         }
-    );
-    login.save((err, login) =>
-    {
-        if(err) return console.error(err);
-        console.log(req.body.name + ' added');
-    });
-    res.redirect('/');
-};
-
-exports.edit = (req, res) =>
-{
-    Login.findById(req.params.id, (err, login) =>
-    {
-        if(err) return console.error(err);
-        res.render('edit',
+        );
+        login.save((err, login) =>
         {
-            title: 'Edit Account Information',
-            login,
-            config
+            if(err) return console.error(err);
+            console.log(req.body.name + ' added');
         });
-    });
-};
-
-exports.editAccount = (req, res) =>
-{
-    Login.findById(req.params.id, (err, login) =>
+        res.redirect('/');
+    };
+    
+    exports.edit = (req, res) =>
     {
-        if(err) return console.error(err);
-        login.Name = req.body.Name,
-        login.Password = req.body.Password,
-        login.Email = req.body.Email,
-        login.AnswerOne = req.body.AnswerOne,
-        login.AnswerTwo = req.body.AnswerTwo,
-        login.AnswerThree = req.body.AnswerThree
-    });
-}
-
-exports.login = (req, res) =>
-{
-
-};
-
+        Login.findById(req.params.id, (err, login) =>
+        {
+            if(err) return console.error(err);
+            res.render('edit',
+            {
+                title: 'Edit Account Information',
+                login,
+                config
+            });
+        });
+    };
+    
+    exports.editAccount = (req, res) =>
+    {
+        Login.findById(req.params.id, (err, login) =>
+        {
+            if(err) return console.error(err);
+            login.Name = req.body.Name,
+            login.Password = req.body.Password,
+            login.Email = req.body.Email,
+            login.AnswerOne = req.body.AnswerOne,
+            login.AnswerTwo = req.body.AnswerTwo,
+            login.AnswerThree = req.body.AnswerThree
+        });
+    }
+    
+    exports.deleteAccount = (req, res) => {
+    
+    };
+    
+    exports.login = (req, res) =>
+    {
+        
+    };
+    
+    
