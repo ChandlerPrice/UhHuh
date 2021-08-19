@@ -128,11 +128,7 @@ exports.createAccount = (req, res) =>
             isAuthenticated: true,
             username: req.body.username
         }
-        res.render('index',
-        {
-            title: 'Home', 
-            config
-        });    
+        res.redirect('/');
     }
     
     
