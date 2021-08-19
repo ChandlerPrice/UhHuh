@@ -68,7 +68,7 @@ exports.createAccount = (req, res) =>
             console.log(req.body.name + ' added');
         });
         res.redirect('/');
-    };
+};
     
     exports.edit = (req, res) =>
     {
