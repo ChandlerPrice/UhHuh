@@ -3,7 +3,7 @@ const config = require('../config');
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect('mongodb://localhost/data', 
+mongoose.connect('mongodb+srv://ARapp:Nu190528560@cluster0.ddfio.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', 
 {
     useUnifiedTopology: true,
     useNewUrlParser: true
@@ -79,7 +79,7 @@ exports.createAccount = (req, res) =>
             console.log(req.body.name + ' added');
         });
         res.redirect('/');
-    };
+};
     
     exports.edit = (req, res) =>
     {
