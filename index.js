@@ -65,7 +65,7 @@ app.get('/logout', (req, res) => {
 });
 
 app.get('/login', routes.login);
-app.post('/login', urlEncodedParser, routes.login)
+app.post('/login', urlEncodedParser, routes.loginCheck)
 app.get('/', routes.index);
 app.get('/create', routes.create)
 app.post('/create', urlEncodedParser, routes.createAccount);
