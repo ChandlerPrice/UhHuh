@@ -33,11 +33,22 @@ let Login = mongoose.model('Login_Collection', loginSchema);
 
 exports.index = (req, res) => 
 {
-    res.render('index',
+    if(req.session.isAuthenticated)
     {
-        title: 'Home', 
-        config
-    });
+        req.session.user = {
+            isAuthenticated: true,
+            username: req.body.username
+        }
+        res.render('index',
+        {
+            title: 'Home', 
+            config
+        }); 
+    }
+    else
+    {
+        res.redirect('/login'); 
+    }
 };
 
 exports.create = (req, res) =>
@@ -104,7 +115,11 @@ exports.createAccount = (req, res) =>
     
     exports.login = (req, res) =>
     {
-        
+        res.render('login', 
+        {
+            title:'Login',
+            config
+        });
     };
     
     
