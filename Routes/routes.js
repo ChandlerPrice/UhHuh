@@ -49,7 +49,7 @@ exports.create = (req, res) =>
     });
 };
 
-exports.createLogin = (req, res) =>
+exports.createAccount = (req, res) =>
 {
     let login = new Login(
         {
@@ -97,7 +97,7 @@ exports.createLogin = (req, res) =>
             login.AnswerThree = req.body.AnswerThree
         });
     }
-    
+
     exports.deleteAccount = (req, res) => {
     
     };
