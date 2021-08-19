@@ -121,5 +121,18 @@ exports.createAccount = (req, res) =>
             config
         });
     };
+
+    exports.loginCheck = (req, res) =>
+    {
+        req.session.user = {
+            isAuthenticated: true,
+            username: req.body.username
+        }
+        res.render('index',
+        {
+            title: 'Home', 
+            config
+        });    
+    }
     
     
