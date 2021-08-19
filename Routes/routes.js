@@ -42,7 +42,7 @@ exports.index = (req, res) =>
         res.render('index',
         {
             title: 'Home', 
-            login,
+            Login,
             config
         }); 
     }
@@ -57,7 +57,7 @@ exports.create = (req, res) =>
     res.render('create', 
     {
         title:'Create Account',
-        login,
+        Login,
         config
     });
 };
@@ -91,7 +91,7 @@ exports.createAccount = (req, res) =>
             res.render('edit',
             {
                 title: 'Edit Account Information',
-                login,
+                Login,
                 config
             });
         });
@@ -120,7 +120,7 @@ exports.createAccount = (req, res) =>
         res.render('login', 
         {
             title:'Login',
-            login,
+            Login,
             config
         });
     };
@@ -134,6 +134,7 @@ exports.createAccount = (req, res) =>
         res.render('index',
         {
             title: 'Home', 
+            Login,
             config
         });    
     }
