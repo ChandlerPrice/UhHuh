@@ -30,12 +30,12 @@ const checkAuth = (req, res, next) => {
     if(req.session.user && req.session.user.isAuthenticated){
         next();
     } else {
-        res.redirect('/');
+        res.redirect('/login');
     }
 };
 
 app.post('/', urlEncodedParser, (req, res) => {
-    console.log(req.body.username);
+    //console.log(req.body.username);
     if(req.body.username == 'user' && req.body.password == 'pass')
     {
         req.session.user = {
