@@ -36,17 +36,17 @@ const checkAuth = (req, res, next) => {
 
 app.post('/', urlEncodedParser, (req, res) => {
     //console.log(req.body.username);
-    if(req.body.username == 'user' && req.body.password == 'pass')
+    if(req.body.Username == 'user' && req.body.Password == 'pass')
     {
         req.session.user = {
             isAuthenticated: true,
             username: req.body.username
         }
-        res.redirect('/private')
+        res.redirect('/')
     }
     else
     {
-        res.redirect('/')
+        res.redirect('/login')
     }
 });
 
