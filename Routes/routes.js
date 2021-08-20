@@ -66,19 +66,19 @@ exports.createAccount = (req, res) =>
 {
     let login = new Login(
         {
-            Name: req.body.Name,
-            Password: req.body.Password,
-            Age: req.body.Age,
-            Email: req.body.Email,
-            AnswerOne: req.body.AnswerOne,
-            AnswerTwo: req.body.AnswerTwo,
-            AnswerThree: req.body.AnswerThree
+            Name: req.body.username,
+            Password: req.body.password,
+            Age: req.body.age,
+            Email: req.body.email,
+            AnswerOne: req.body.answerOne,
+            AnswerTwo: req.body.answerTwo,
+            AnswerThree: req.body.answerThree
         }
         );
         login.save((err, login) =>
         {
             if(err) return console.error(err);
-            console.log(req.body.name + ' added');
+            console.log(req.body.username + ' added');
         });
         res.redirect('/');
 };
