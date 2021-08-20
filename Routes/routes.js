@@ -62,12 +62,25 @@ exports.create = (req, res) =>
     });
 };
 
+const makeHash = theString =>
+{
+    bcrypt.genSalt(10, (err, salt) =>
+    {
+        bcrypt.hash(theString, salt, (err, myHash) =>
+        {
+            console.log(salt);
+            console.group(hash);
+            hashComplete(myHash);
+        });
+    })
+}
+
 exports.createAccount = (req, res) =>
 {
     let login = new Login(
         {
             Name: req.body.username,
-            Password: req.body.password,
+            Password: makeHash(req.body.password),
             Age: req.body.age,
             Email: req.body.email,
             AnswerOne: req.body.answerOne,
@@ -82,6 +95,7 @@ exports.createAccount = (req, res) =>
         });
         res.redirect('/');
 };
+
     
     exports.edit = (req, res) =>
     {
@@ -102,7 +116,7 @@ exports.createAccount = (req, res) =>
         Login.findById(req.params.id, (err, login) =>
         {
             if(err) return console.error(err);
-            login.Name = req.body.Name,
+            login.Name = req.body.username,
             login.Password = req.body.Password,
             login.Email = req.body.Email,
             login.AnswerOne = req.body.AnswerOne,
@@ -133,5 +147,7 @@ exports.createAccount = (req, res) =>
         }
         res.redirect('/');
     }
+
+
     
     
