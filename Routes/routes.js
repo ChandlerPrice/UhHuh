@@ -93,7 +93,7 @@ exports.createAccount = (req, res) =>
     let login = new Login(
         {
             Name: req.body.username,
-            Password: makeHash(req.body.password),
+            Password: req.body.password,
             Age: req.body.age,
             Email: req.body.email,
             AnswerOne: req.body.answerOne,
