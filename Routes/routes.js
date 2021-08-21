@@ -65,15 +65,18 @@ exports.create = (req, res) =>
 
 const makeHash = theString =>
 {
+    let the_hash = "";
     bcrypt.genSalt(10, (err, salt) =>
     {
         bcrypt.hash(theString, salt, (err, myHash) =>
         {
             console.log(salt);
             console.group(myHash);
-            hashComplete(myHash);
+            hashComplete(theString, myHash);
+            the_hash = myHash;
         });
     })
+    return the_hash;
 }
 
 const hashComplete = (theString, theHash) => {
@@ -84,10 +87,13 @@ const hashComplete = (theString, theHash) => {
 
 exports.createAccount = (req, res) =>
 {
+    let salt = bcrypt.genSaltSync(10);
+    let hashedPass = bcrypt.hashSync(req.body.password, salt);
+
     let login = new Login(
         {
             Name: req.body.username,
-            Password: req.body.password,
+            Password: hashedPass,
             Age: req.body.age,
             Email: req.body.email,
             AnswerOne: req.body.answerOne,
