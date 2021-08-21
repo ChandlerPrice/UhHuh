@@ -98,56 +98,55 @@ exports.createAccount = (req, res) =>
 };
 
     
-    exports.edit = (req, res) =>
+exports.edit = (req, res) =>
+{
+    Login.findById(req.params.id, (err, login) =>
     {
-        Login.findById(req.params.id, (err, login) =>
+        if(err) return console.error(err);
+        res.render('edit',
         {
-            if(err) return console.error(err);
-            res.render('edit',
-            {
-                title: 'Edit Account Information',
-                Login,
-                config
-            });
-        });
-    };
-    
-    exports.editAccount = (req, res) =>
-    {
-        Login.findById(req.params.id, (err, login) =>
-        {
-            if(err) return console.error(err);
-            login.Name = req.body.username,
-            login.Password = req.body.Password,
-            login.Email = req.body.Email,
-            login.AnswerOne = req.body.AnswerOne,
-            login.AnswerTwo = req.body.AnswerTwo,
-            login.AnswerThree = req.body.AnswerThree
-        });
-    }
-
-    exports.deleteAccount = (req, res) => {
-    
-    };
-    
-    exports.login = (req, res) =>
-    {
-        res.render('login', 
-        {
-            title:'Login',
+            title: 'Edit Account Information',
             Login,
             config
         });
-    };
-
-    exports.loginCheck = (req, res) =>
+    });
+};
+    
+exports.editAccount = (req, res) =>
+{
+    Login.findById(req.params.id, (err, login) =>
     {
-        req.session.user = {
-            isAuthenticated: true,
-            username: req.body.username
-        }
-        res.redirect('/');
+        if(err) return console.error(err);
+        login.Name = req.body.username,
+        login.Password = req.body.Password,
+        login.Email = req.body.Email,
+        login.AnswerOne = req.body.AnswerOne,
+        login.AnswerTwo = req.body.AnswerTwo,
+        login.AnswerThree = req.body.AnswerThree
+    });
+};
+
+exports.deleteAccount = (req, res) => {
+    
+};
+    
+exports.login = (req, res) =>
+{
+    res.render('login', 
+    {
+        title:'Login',
+        Login,
+        config
+    });
+};
+
+exports.loginCheck = (req, res) =>
+{
+    req.session.user = {
+        isAuthenticated: true,
+        username: req.body.username
     }
+};
 
 
     
