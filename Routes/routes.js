@@ -76,6 +76,18 @@ const makeHash = theString =>
     })
 }
 
+const hashComplete = theHash =>
+{
+    bcrypt.compare('Bacon', theHash, (err, res) =>
+    {
+        console.log(res);
+    });
+    bcrypt.compare('veggies', theHash, (err, res) =>
+    {
+        console.log(res);
+    });
+}
+
 exports.createAccount = (req, res) =>
 {
     let login = new Login(
