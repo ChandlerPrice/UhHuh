@@ -70,22 +70,16 @@ const makeHash = theString =>
         bcrypt.hash(theString, salt, (err, myHash) =>
         {
             console.log(salt);
-            console.group(hash);
+            console.group(myHash);
             hashComplete(myHash);
         });
     })
 }
 
-const hashComplete = theHash =>
-{
-    bcrypt.compare('Bacon', theHash, (err, res) =>
-    {
+const hashComplete = (theString, theHash) => {
+    bcrypt.compare(theString, theHash, (err, res) => {
         console.log(res);
-    });
-    bcrypt.compare('veggies', theHash, (err, res) =>
-    {
-        console.log(res);
-    });
+    })
 }
 
 exports.createAccount = (req, res) =>
