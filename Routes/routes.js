@@ -70,9 +70,15 @@ const makeHash = theString =>
         bcrypt.hash(theString, salt, (err, myHash) =>
         {
             console.log(salt);
-            console.group(hash);
+            console.group(myHash);
             hashComplete(myHash);
         });
+    })
+}
+
+const hashComplete = (theString, theHash) => {
+    bcrypt.compare(theString, theHash, (err, res) => {
+        console.log(res);
     })
 }
 
