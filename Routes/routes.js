@@ -154,9 +154,14 @@ exports.login = (req, res) =>
 
 exports.loginCheck = (req, res) =>
 {
-    req.session.user = {
-        isAuthenticated: true,
-        username: req.body.username
+    if(bcrypt.compareSync(req.body.password, hash))
+    {
+        req.session.user = 
+        {
+            isAuthenticated: true,
+            username: req.body.username
+        }
+
     }
 };
 
