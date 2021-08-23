@@ -2,6 +2,7 @@ const express = require('express');
 const pug = require('pug');
 const routes = require('./routes/routes');
 const expressSession = require('express-session');
+const cookieParser = require('cookie-parser');
 const path = require('path');
 
 const app = express();
@@ -9,6 +10,8 @@ const app = express();
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(cookieParser());
 
 app.use(expressSession({
     secret: 'secret',
@@ -21,6 +24,8 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Heaers", "Origin, X-Request-With, Content-Type, Accept");
     next();
 });
+
+let visited = 0;
 
 let urlEncodedParser = express.urlencoded({
     extended: false
@@ -47,6 +52,20 @@ app.post('/', urlEncodedParser, (req, res) => {
     else
     {
         res.redirect('/login')
+    }
+    visited++;
+
+    res.cookie('visited', visited, {maxAge: 999999999999999999999999999999});
+    res.cookie('stuff', myString, {maxAge: 999999999999999999999999999999});
+
+    if(req.cookies.beenToSiteBefore == 'yes')
+    {
+        res.send(`Welcome back young traveler you have entered this domain ${req.cookies.visited} times before.`)
+    }
+    else
+    {
+        res.cookie('beenToSiteBefore', 'yes', {maxAge: 9999999999999999999999999999999999});
+        res.send('Hello young traveler, i havent seen you before, you must be new');
     }
 });
 
