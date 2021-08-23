@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const config = require('../config');
 const bcrypt = require('bcryptjs');
 
+let salt = bcrypt.genSaltSync(10);
+let hash = "";
+
 mongoose.Promise = global.Promise;
 
 mongoose.connect('mongodb+srv://ARapp:Nu190528560@cluster0.ddfio.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', 
@@ -38,7 +41,7 @@ exports.index = (req, res) =>
     {
         req.session.user = {
             isAuthenticated: true,
-            username: req.body.username
+            //Name: req.body.username
         }
         res.render('index',
         {
@@ -65,7 +68,6 @@ exports.create = (req, res) =>
 
 const makeHash = theString =>
 {
-    let the_hash = "";
     bcrypt.genSalt(10, (err, salt) =>
     {
         bcrypt.hash(theString, salt, (err, myHash) =>
@@ -73,7 +75,7 @@ const makeHash = theString =>
             console.log(salt);
             console.group(myHash);
             hashComplete(theString, myHash);
-            the_hash = myHash;
+            hash = myHash;
         });
     })
     return the_hash;
@@ -87,13 +89,12 @@ const hashComplete = (theString, theHash) => {
 
 exports.createAccount = (req, res) =>
 {
-    let salt = bcrypt.genSaltSync(10);
-    let hashedPass = bcrypt.hashSync(req.body.password, salt);
+    hash = bcrypt.hashSync(req.body.password, salt);
 
     let login = new Login(
         {
             Name: req.body.username,
-            Password: hashedPass,
+            Password: hash,
             Age: req.body.age,
             Email: req.body.email,
             AnswerOne: req.body.answerOne,
@@ -154,17 +155,29 @@ exports.login = (req, res) =>
 
 exports.loginCheck = (req, res) =>
 {
-    if(bcrypt.compareSync(req.body.password, hash))
+    //let salt = bcrypt.genSaltSync(10);
+    Login.findOne({ Name: req.body.Username}, (err, user) =>
     {
-        req.session.user = 
+        if(err) return console.error(err);
+        console.log('User found');
+        console.log(`passwordAttempt: ${req.body.Password}`)
+        console.log(`passwordAttemptHashed: ${bcrypt.hashSync(req.body.Password, salt)}`)
+        console.log(`databasePassword: ${user.Password}`)
+        console.log(`salt: ${salt}`)
+        if(user && bcrypt.compare(req.body.Password, user.Password))
         {
-            isAuthenticated: true,
-            username: req.body.username
+            console.log('Logged in')
+            req.session.isAuthenticated = true;
+            res.render('index', 
+            {
+                title:'Home',
+                user,
+                config
+            });        }
+        else
+        {
+            console.log('Incorrect')
+            res.redirect('/'); 
         }
-
-    }
+    });
 };
-
-
-    
-    
