@@ -5,6 +5,7 @@ const bcrypt = require('bcryptjs');
 let salt = bcrypt.genSaltSync(10);
 let hash = "";
 let visited = 0;
+let clientUser;
 
 mongoose.Promise = global.Promise;
 
@@ -39,7 +40,6 @@ let Login = mongoose.model('Login_Collection', loginSchema);
 exports.index = (req, res) => 
 {
     console.log(`isAuth: ${req.session.isAuthenticated}`);
-    let user = req.session.sesUser;
     if(req.session.isAuthenticated)
     {
         req.session.user = {
@@ -48,16 +48,16 @@ exports.index = (req, res) =>
         }
         if(req.cookies.beenToSiteBefore == 'yes')
         {
+            visited++;
         }
         else
         {
             res.cookie('beenToSiteBefore', 'yes', {maxAge: 9999999999999999999999999999999999});
         }
-        visited++;
         res.render('index',
         {
             title: 'Home', 
-            user,
+            user: clientUser,
             config
         }); 
     }
@@ -120,18 +120,23 @@ exports.editAccount = (req, res) =>
     Login.findById(req.params.id, (err, login) =>
     {
         if(err) return console.error(err);
-        login.Name = req.body.username,
-        login.Password = req.body.Password,
-        login.Email = req.body.Email,
-        login.AnswerOne = req.body.AnswerOne,
-        login.AnswerTwo = req.body.AnswerTwo,
-        login.AnswerThree = req.body.AnswerThree
+        login.Name = (req.body.username) ? req.body.username : login.Name,
+        login.Password = (req.body.password) ? bcrypt.hashSync(salt, req.body.password) : login.Password,
+        login.Email = (req.body.email) ? req.body.email : login.Email,
+        login.AnswerOne = req.body.answerOne,
+        login.AnswerTwo = req.body.answerTwo,
+        login.AnswerThree = req.body.answerThree
         login.save((err, login) => {
             if(err) return console.error(err);
-            console.log(req.body.category + 'Account updated');
+            console.log(req.body.name + ' updated');
         });
+        clientUser = login;
     });
     res.redirect('/');
+};
+
+exports.deleteAccount = (req, res) => {
+    
 };
     
 exports.login = (req, res) =>
@@ -147,7 +152,7 @@ exports.login = (req, res) =>
 exports.loginCheck = (req, res) =>
 {
     //let salt = bcrypt.genSaltSync(10);
-    Login.findOne({ Name: req.body.Username}, (err, user) =>
+    Login.findOne({Name: req.body.Username}, (err, user) =>
     {
         if(err) return console.error(err);
         console.log('User found');
@@ -159,6 +164,7 @@ exports.loginCheck = (req, res) =>
             console.log('Logged in')
             req.session.isAuthenticated = true;
             req.session.sesUser = user;
+            clientUser = user;
             res.redirect('/');       
         }
         else
