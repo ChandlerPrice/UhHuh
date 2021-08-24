@@ -79,8 +79,8 @@ app.post('/login', urlEncodedParser, routes.loginCheck)
 app.get('/', routes.index);
 app.get('/create', routes.create)
 app.post('/create', urlEncodedParser, routes.createAccount);
-app.get('/edit', routes.edit)
-app.post('/edit', urlEncodedParser, routes.editAccount);
-app.post('/delete', urlEncodedParser, routes.deleteAccount);
+app.get('/edit/:id', routes.edit)
+app.post('/edit/:id', urlEncodedParser, routes.editAccount);
+app.post('/delete/:id', urlEncodedParser, routes.deleteAccount);
 
 app.listen(3000);

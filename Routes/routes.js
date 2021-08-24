@@ -59,9 +59,9 @@ exports.index = (req, res) =>
         visited++;
         // res.render('index',
         // {
-        //     title: 'Home', 
-        //     Login,
-        //     config
+        //    title: 'Home', 
+        //    user,
+        //    config
         // }); 
     }
     else
@@ -133,7 +133,7 @@ exports.edit = (req, res) =>
         res.render('edit',
         {
             title: 'Edit Account Information',
-            Login,
+            login,
             config
         });
     });
@@ -144,13 +144,20 @@ exports.editAccount = (req, res) =>
     Login.findById(req.params.id, (err, login) =>
     {
         if(err) return console.error(err);
-        login.Name = req.body.username,
-        login.Password = req.body.Password,
-        login.Email = req.body.Email,
-        login.AnswerOne = req.body.AnswerOne,
-        login.AnswerTwo = req.body.AnswerTwo,
-        login.AnswerThree = req.body.AnswerThree
+        login.Name = (req.body.username != undefined) ? req.body.username : login.Name,
+        login.Password = (req.body.password != undefined) ? bcrypt.hashSync(req.body.password, salt) : login.Password,
+        login.Email = (req.body.email != undefined) ? req.body.email : login.Email,
+        login.AnswerOne = req.body.answerOne,
+        login.AnswerTwo = req.body.answerTwo,
+        login.AnswerThree = req.body.answerThree
+        login.save((err, login) => {
+            if(err) return console.error(err);
+            console.log(req.body.name + ' updated');
+            currentUser = login;
+        });
+        res.redirect('/');
     });
+
 };
 
 exports.deleteAccount = (req, res) => {
@@ -188,7 +195,7 @@ exports.loginCheck = (req, res) =>
         {
             console.log('Incorrect')
             req.session.isAuthenticated = false;
-            res.redirect('/'); 
+            res.redirect('/login'); 
         }
     });
 };

@@ -1,27 +1,28 @@
 extends layout 
 
 block content 
-    form(id='form' method='post' action='/create')
+    form(id='form' method='post' action='/edit/' + login.id)
         p Username
-            input(type='text' name='username')
+            input(type='text' name='username' value=login.Name) 
         p Password 
             input(type='password' name='password')
         p Email 
-            input(type='text' name='email')
+            input(type='text' name='email' value=login.Email)
         p Age 
-            input(type='age' name='age')
-        p Question One
+            input(type='age' name='age' value=login.Age)
+        p Do you like blue?
             select(type='text' name='answerOne')
-                option(value='One') 
-                option(value='Two') 
-                option(value='Three') 
+                option(value='All of Yes') All of Yes
+                option(value='I cannot see blue') I cannot see blue
+                option(value=`It's pretty cool`) It's pretty cool
+                option(value=`I'm wrong`) I'm wrong
         p Question Two
-            select(type='text' name='answerOne')
+            select(type='text' name='answerTwo')
                 option(value='One') 
                 option(value='Two') 
                 option(value='Three') 
         p Question Three
-            select(type='text' name='answerOne')
+            select(type='text' name='answerThree')
                 option(value='One') 
                 option(value='Two') 
                 option(value='Three') 
