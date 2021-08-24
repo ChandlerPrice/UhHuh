@@ -29,6 +29,14 @@ let urlEncodedParser = express.urlencoded({
     extended: false
 });
 
+const checkAuth = (req, res, next) => {
+    if(req.session.user && req.session.user.isAuthenticated){
+        next();
+    } else {
+        res.redirect('/login');
+    }
+};
+
 app.post('/', urlEncodedParser, (req, res) => {
     console.log(req.body.username);
     if(req.body.Username == 'user' && req.body.Password == 'pass')
@@ -46,6 +54,10 @@ app.post('/', urlEncodedParser, (req, res) => {
 
     res.cookie('visited', visited, {maxAge: 999999999999999999999999999999});
     res.cookie('stuff', myString, {maxAge: 999999999999999999999999999999});
+});
+
+app.get('/edit', checkAuth, (req, res) => {
+    res.send(`Authorized access: Welcome! ${req.session.user.username}`);
 });
 
 app.get('/logout', (req, res) => {
@@ -69,5 +81,6 @@ app.get('/create', routes.create)
 app.post('/create', urlEncodedParser, routes.createAccount);
 app.get('/edit/:id', routes.edit)
 app.post('/edit/:id', urlEncodedParser, routes.editAccount);
+app.post('/delete/:id', urlEncodedParser, routes.deleteAccount);
 
 app.listen(3000);

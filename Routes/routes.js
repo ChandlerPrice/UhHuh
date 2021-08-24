@@ -77,6 +77,27 @@ exports.create = (req, res) =>
     });
 };
 
+const makeHash = theString =>
+{
+    bcrypt.genSalt(10, (err, salt) =>
+    {
+        bcrypt.hash(theString, salt, (err, myHash) =>
+        {
+            console.log(salt);
+            console.group(myHash);
+            hashComplete(theString, myHash);
+            hash = myHash;
+        });
+    })
+    return the_hash;
+}
+
+const hashComplete = (theString, theHash) => {
+    bcrypt.compare(theString, theHash, (err, res) => {
+        console.log(res);
+    })
+}
+
 exports.createAccount = (req, res) =>
 {
     hash = bcrypt.hashSync(req.body.password, salt);
