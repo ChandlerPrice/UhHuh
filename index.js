@@ -40,7 +40,7 @@ const checkAuth = (req, res, next) => {
 };
 
 app.post('/', urlEncodedParser, (req, res) => {
-    //console.log(req.body.username);
+    console.log(req.body.username);
     if(req.body.Username == 'user' && req.body.Password == 'pass')
     {
         req.session.user = {
@@ -67,13 +67,12 @@ app.get('/logout', (req, res) => {
     req.session.isAuthenticated = false;
     req.session.user = {
         isAuthenticated: false,
-        //User: user
     }
     req.session.destroy(err => {
         if(err) {
             console.log(err);
         } else {
-            res.redirect('/')
+            res.redirect('/login')
         }
     });
 });

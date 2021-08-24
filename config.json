@@ -3,6 +3,6 @@
     [
         ["Home", "/", ""],
         ["Login", "/login", ""],
-        ["Logout", "/login", ""]
+        ["Logout", "/logout", ""]
     ]
 }

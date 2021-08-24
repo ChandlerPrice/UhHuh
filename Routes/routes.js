@@ -37,6 +37,8 @@ let Login = mongoose.model('Login_Collection', loginSchema);
 
 exports.index = (req, res) => 
 {
+    console.log(`isAuth: ${req.session.isAuthenticated}`);
+    let user = req.session.sesUser;
     if(req.session.isAuthenticated)
     {
         req.session.user = {
@@ -170,23 +172,19 @@ exports.loginCheck = (req, res) =>
         if(err) return console.error(err);
         console.log('User found');
         console.log(`passwordAttempt: ${req.body.Password}`)
-        console.log(`passwordAttemptHashed: ${bcrypt.hashSync(req.body.Password, salt)}`)
         console.log(`databasePassword: ${user.Password}`)
-        console.log(`salt: ${salt}`)
+        console.log(bcrypt.compareSync(req.body.Password, user.Password))
         if(user && bcrypt.compareSync(req.body.Password, user.Password))
         {
             console.log('Logged in')
             req.session.isAuthenticated = true;
-            res.render('index', 
-            {
-                title:'Home',
-                user,
-                config
-            });        
+            req.session.sesUser = user;
+            res.redirect('/');       
         }
         else
         {
             console.log('Incorrect')
+            req.session.isAuthenticated = false;
             res.redirect('/'); 
         }
     });
