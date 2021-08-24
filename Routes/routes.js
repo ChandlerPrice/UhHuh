@@ -1,9 +1,11 @@
 const mongoose = require('mongoose');
 const config = require('../config');
 const bcrypt = require('bcryptjs');
+const p = document.getElementById('paragraph');
 
 let salt = bcrypt.genSaltSync(10);
 let hash = "";
+let visited = 0;
 
 mongoose.Promise = global.Promise;
 
@@ -47,13 +49,14 @@ exports.index = (req, res) =>
         }
         if(req.cookies.beenToSiteBefore == 'yes')
         {
-            res.send(`Welcome back young traveler you have entered this domain ${req.cookies.visited} times before.`)
+            p.innerHTML = <p>${`Welcome back young traveler you have entered this domain ${req.cookies.visited} times before.`}</p>;
         }
         else
         {
             res.cookie('beenToSiteBefore', 'yes', {maxAge: 9999999999999999999999999999999999});
-            res.send('Hello young traveler, i havent seen you before, you must be new');
+            p.innerHTML = <p>$r{'Hello young traveler, i havent seen you before, you must be new'}</p>;
         }
+        visited++;
         // res.render('index',
         // {
         //     title: 'Home', 

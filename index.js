@@ -25,8 +25,6 @@ app.use((req, res, next) => {
     next();
 });
 
-let visited = 0;
-
 let urlEncodedParser = express.urlencoded({
     extended: false
 });
@@ -53,7 +51,6 @@ app.post('/', urlEncodedParser, (req, res) => {
     {
         res.redirect('/login')
     }
-    visited++;
 
     res.cookie('visited', visited, {maxAge: 999999999999999999999999999999});
     res.cookie('stuff', myString, {maxAge: 999999999999999999999999999999});
