@@ -40,7 +40,7 @@ const checkAuth = (req, res, next) => {
 };
 
 app.post('/', urlEncodedParser, (req, res) => {
-    //console.log(req.body.username);
+    console.log(req.body.username);
     if(req.body.Username == 'user' && req.body.Password == 'pass')
     {
         req.session.user = {
@@ -57,16 +57,6 @@ app.post('/', urlEncodedParser, (req, res) => {
 
     res.cookie('visited', visited, {maxAge: 999999999999999999999999999999});
     res.cookie('stuff', myString, {maxAge: 999999999999999999999999999999});
-
-    if(req.cookies.beenToSiteBefore == 'yes')
-    {
-        res.send(`Welcome back young traveler you have entered this domain ${req.cookies.visited} times before.`)
-    }
-    else
-    {
-        res.cookie('beenToSiteBefore', 'yes', {maxAge: 9999999999999999999999999999999999});
-        res.send('Hello young traveler, i havent seen you before, you must be new');
-    }
 });
 
 app.get('/edit', checkAuth, (req, res) => {
@@ -74,11 +64,15 @@ app.get('/edit', checkAuth, (req, res) => {
 });
 
 app.get('/logout', (req, res) => {
+    req.session.isAuthenticated = false;
+    req.session.user = {
+        isAuthenticated: false,
+    }
     req.session.destroy(err => {
         if(err) {
             console.log(err);
         } else {
-            res.redirect('/')
+            res.redirect('/login')
         }
     });
 });

@@ -4,7 +4,6 @@ const bcrypt = require('bcryptjs');
 
 let salt = bcrypt.genSaltSync(10);
 let hash = "";
-let currentUser = "";
 
 mongoose.Promise = global.Promise;
 
@@ -38,18 +37,29 @@ let Login = mongoose.model('Login_Collection', loginSchema);
 
 exports.index = (req, res) => 
 {
+    console.log(`isAuth: ${req.session.isAuthenticated}`);
+    let user = req.session.sesUser;
     if(req.session.isAuthenticated)
     {
         req.session.user = {
             isAuthenticated: true,
-            //Name: req.body.username
+            //User: user
         }
-        res.render('index',
+        if(req.cookies.beenToSiteBefore == 'yes')
         {
-            title: 'Home', 
-            user: currentUser,
-            config
-        }); 
+            res.send(`Welcome back young traveler you have entered this domain ${req.cookies.visited} times before.`)
+        }
+        else
+        {
+            res.cookie('beenToSiteBefore', 'yes', {maxAge: 9999999999999999999999999999999999});
+            res.send('Hello young traveler, i havent seen you before, you must be new');
+        }
+        // res.render('index',
+        // {
+        //    title: 'Home', 
+        //    user,
+        //    config
+        // }); 
     }
     else
     {
@@ -169,19 +179,19 @@ exports.loginCheck = (req, res) =>
         if(err) return console.error(err);
         console.log('User found');
         console.log(`passwordAttempt: ${req.body.Password}`)
-        console.log(`passwordAttemptHashed: ${bcrypt.hashSync(req.body.Password, salt)}`)
         console.log(`databasePassword: ${user.Password}`)
-        console.log(`salt: ${salt}`)
-        if(user && bcrypt.compare(req.body.Password, user.Password))
+        console.log(bcrypt.compareSync(req.body.Password, user.Password))
+        if(user && bcrypt.compareSync(req.body.Password, user.Password))
         {
             console.log('Logged in')
             req.session.isAuthenticated = true;
-            currentUser = user;
-            res.redirect('/')
+            req.session.sesUser = user;
+            res.redirect('/');       
         }
         else
         {
             console.log('Incorrect')
+            req.session.isAuthenticated = false;
             res.redirect('/login'); 
         }
     });
