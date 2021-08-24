@@ -57,16 +57,6 @@ app.post('/', urlEncodedParser, (req, res) => {
 
     res.cookie('visited', visited, {maxAge: 999999999999999999999999999999});
     res.cookie('stuff', myString, {maxAge: 999999999999999999999999999999});
-
-    if(req.cookies.beenToSiteBefore == 'yes')
-    {
-        res.send(`Welcome back young traveler you have entered this domain ${req.cookies.visited} times before.`)
-    }
-    else
-    {
-        res.cookie('beenToSiteBefore', 'yes', {maxAge: 9999999999999999999999999999999999});
-        res.send('Hello young traveler, i havent seen you before, you must be new');
-    }
 });
 
 app.get('/edit', checkAuth, (req, res) => {

@@ -43,12 +43,21 @@ exports.index = (req, res) =>
             isAuthenticated: true,
             //User: user
         }
-        res.render('index',
+        if(req.cookies.beenToSiteBefore == 'yes')
         {
-            title: 'Home', 
-            Login,
-            config
-        }); 
+            res.send(`Welcome back young traveler you have entered this domain ${req.cookies.visited} times before.`)
+        }
+        else
+        {
+            res.cookie('beenToSiteBefore', 'yes', {maxAge: 9999999999999999999999999999999999});
+            res.send('Hello young traveler, i havent seen you before, you must be new');
+        }
+        // res.render('index',
+        // {
+        //     title: 'Home', 
+        //     Login,
+        //     config
+        // }); 
     }
     else
     {
