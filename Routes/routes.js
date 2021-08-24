@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 
 let salt = bcrypt.genSaltSync(10);
 let hash = "";
+let currentUser = "";
 
 mongoose.Promise = global.Promise;
 
@@ -46,7 +47,7 @@ exports.index = (req, res) =>
         res.render('index',
         {
             title: 'Home', 
-            Login,
+            user: currentUser,
             config
         }); 
     }
@@ -119,7 +120,7 @@ exports.edit = (req, res) =>
         res.render('edit',
         {
             title: 'Edit Account Information',
-            Login,
+            login,
             config
         });
     });
@@ -130,13 +131,20 @@ exports.editAccount = (req, res) =>
     Login.findById(req.params.id, (err, login) =>
     {
         if(err) return console.error(err);
-        login.Name = req.body.username,
-        login.Password = req.body.Password,
-        login.Email = req.body.Email,
-        login.AnswerOne = req.body.AnswerOne,
-        login.AnswerTwo = req.body.AnswerTwo,
-        login.AnswerThree = req.body.AnswerThree
+        login.Name = (req.body.username != undefined) ? req.body.username : login.Name,
+        login.Password = (req.body.password != undefined) ? bcrypt.hashSync(req.body.password, salt) : login.Password,
+        login.Email = (req.body.email != undefined) ? req.body.email : login.Email,
+        login.AnswerOne = req.body.answerOne,
+        login.AnswerTwo = req.body.answerTwo,
+        login.AnswerThree = req.body.answerThree
+        login.save((err, login) => {
+            if(err) return console.error(err);
+            console.log(req.body.name + ' updated');
+            currentUser = login;
+        });
+        res.redirect('/');
     });
+
 };
 
 exports.deleteAccount = (req, res) => {
@@ -168,16 +176,13 @@ exports.loginCheck = (req, res) =>
         {
             console.log('Logged in')
             req.session.isAuthenticated = true;
-            res.render('index', 
-            {
-                title:'Home',
-                user,
-                config
-            });        }
+            currentUser = user;
+            res.redirect('/')
+        }
         else
         {
             console.log('Incorrect')
-            res.redirect('/'); 
+            res.redirect('/login'); 
         }
     });
 };
