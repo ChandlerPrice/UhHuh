@@ -41,7 +41,7 @@ exports.index = (req, res) =>
     {
         req.session.user = {
             isAuthenticated: true,
-            //Name: req.body.username
+            //User: user
         }
         res.render('index',
         {
@@ -164,7 +164,7 @@ exports.loginCheck = (req, res) =>
         console.log(`passwordAttemptHashed: ${bcrypt.hashSync(req.body.Password, salt)}`)
         console.log(`databasePassword: ${user.Password}`)
         console.log(`salt: ${salt}`)
-        if(user && bcrypt.compare(req.body.Password, user.Password))
+        if(user && bcrypt.compareSync(req.body.Password, user.Password))
         {
             console.log('Logged in')
             req.session.isAuthenticated = true;
@@ -173,7 +173,8 @@ exports.loginCheck = (req, res) =>
                 title:'Home',
                 user,
                 config
-            });        }
+            });        
+        }
         else
         {
             console.log('Incorrect')

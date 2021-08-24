@@ -74,6 +74,11 @@ app.get('/edit', checkAuth, (req, res) => {
 });
 
 app.get('/logout', (req, res) => {
+    req.session.isAuthenticated = false;
+    req.session.user = {
+        isAuthenticated: false,
+        //User: user
+    }
     req.session.destroy(err => {
         if(err) {
             console.log(err);
