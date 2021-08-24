@@ -1,8 +1,6 @@
 const mongoose = require('mongoose');
 const config = require('../config');
 const bcrypt = require('bcryptjs');
-const p = document.getElementById('paragraph');
-//hi
 
 let salt = bcrypt.genSaltSync(10);
 let hash = "";
@@ -50,18 +48,16 @@ exports.index = (req, res) =>
         }
         if(req.cookies.beenToSiteBefore == 'yes')
         {
-            p.innerHTML = `Welcome back young traveler you have entered this domain ${req.cookies.visited} times before.`;
         }
         else
         {
             res.cookie('beenToSiteBefore', 'yes', {maxAge: 9999999999999999999999999999999999});
-            p.innerHTML = 'Hello young traveler, i havent seen you before, you must be new';
         }
         visited++;
         res.render('index',
         {
             title: 'Home', 
-            Login,
+            user,
             config
         }); 
     }
