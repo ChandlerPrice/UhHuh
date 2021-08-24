@@ -50,12 +50,12 @@ exports.index = (req, res) =>
         }
         if(req.cookies.beenToSiteBefore == 'yes')
         {
-            p.innerHTML = <p>${`Welcome back young traveler you have entered this domain ${req.cookies.visited} times before.`}</p>;
+            p.innerHTML = `Welcome back young traveler you have entered this domain ${req.cookies.visited} times before.`;
         }
         else
         {
             res.cookie('beenToSiteBefore', 'yes', {maxAge: 9999999999999999999999999999999999});
-            p.innerHTML = <p>$r{'Hello young traveler, i havent seen you before, you must be new'}</p>;
+            p.innerHTML = 'Hello young traveler, i havent seen you before, you must be new';
         }
         visited++;
         res.render('index',
