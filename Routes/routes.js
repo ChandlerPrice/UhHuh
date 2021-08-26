@@ -37,6 +37,21 @@ let loginSchema = mongoose.Schema
 
 let Login = mongoose.model('Login_Collection', loginSchema);
 
+const AccountAnswers = {
+    categories: 
+    {
+        "AnswerOne":[
+            {id:`1`, joke:`All of Yes`}
+        ],
+        "AnswerTwo":[
+            {id:`2`, joke:`Yes`}
+        ],
+        "AnswerThree":[
+            {id:`3`, joke:`They are pretty cool`}
+        ]
+    }
+}
+
 exports.index = (req, res) => 
 {
     console.log(`isAuth: ${req.session.isAuthenticated}`);
@@ -196,3 +211,8 @@ exports.loginCheck = (req, res) =>
         }
     });
 };
+
+exports.api = (req, res) => {
+    //console.log(req.query.id);
+    res.json(AccountAnswers);
+}

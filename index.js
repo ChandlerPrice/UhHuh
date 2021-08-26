@@ -21,7 +21,7 @@ app.use(expressSession({
 
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Heaers", "Origin, X-Request-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Request-With, Content-Type, Accept");
     next();
 });
 
@@ -77,6 +77,7 @@ app.get('/logout', (req, res) => {
 app.get('/login', routes.login);
 app.post('/login', urlEncodedParser, routes.loginCheck)
 app.get('/', routes.index);
+app.get('/api', routes.api);
 app.get('/create', routes.create)
 app.post('/create', urlEncodedParser, routes.createAccount);
 app.get('/edit/:id', routes.edit)
