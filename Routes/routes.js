@@ -40,16 +40,27 @@ let Login = mongoose.model('Login_Collection', loginSchema);
 const AccountAnswers = {
     categories: 
     {
-        "AnswerOne":[
-            {id:`1`, joke:`All of Yes`}
+        "QuestionOne":[
+            //{id:`1`, joke:`All of Yes`}
         ],
-        "AnswerTwo":[
-            {id:`2`, joke:`Yes`}
+        "QuestionTwo":[
+            //{id:`2`, joke:`Yes`}
         ],
-        "AnswerThree":[
-            {id:`3`, joke:`They are pretty cool`}
+        "QuestionThree":[
+            //{id:`3`, joke:`They are pretty cool`}
         ]
     }
+}
+
+exports.api = (req, res) =>
+{
+    Login.collection.find().forEach( function(myDoc) 
+    {
+         AccountAnswers.categories.QuestionOne.push(myDoc.AnswerOne); 
+         AccountAnswers.categories.QuestionTwo.push(myDoc.AnswerTwo); 
+         AccountAnswers.categories.QuestionThree.push(myDoc.AnswerThree); 
+    });
+    res.json(AccountAnswers);
 }
 
 exports.index = (req, res) => 
@@ -211,8 +222,3 @@ exports.loginCheck = (req, res) =>
         }
     });
 };
-
-exports.api = (req, res) => {
-    //console.log(req.query.id);
-    res.json(AccountAnswers);
-}
