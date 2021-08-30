@@ -4,17 +4,8 @@ const routes = require('./routes/routes');
 const expressSession = require('express-session');
 const cookieParser = require('cookie-parser');
 const path = require('path');
-const {createAvatar} = require('@dicebear/avatars');
-const style = require('@dicebear/avatars-avataaars-sprites')
 
 const app = express();
-
-let svg = createAvatar(style, 
-    {
-        seed: 'custom-seed',
-        // ... and other options
-    }
-);
 
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
